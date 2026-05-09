@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+// 1. Next.js handles the fetching and hosting of the font automatically
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["700"],
+  style: ["italic", "normal"],
+  variable: "--font-fraunces",
+});
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +36,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn(
+        "h-full", 
+        "antialiased", 
+        geistSans.variable, 
+        geistMono.variable, 
+        inter.variable, 
+        fraunces.variable, // 2. Added the CSS variable here
+        "font-sans"
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
