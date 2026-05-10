@@ -72,8 +72,10 @@ const useAuth = () => {
   const loginWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/boards`, // login ke baad yahan jayega
+      },
     });
-
     if (error) console.log("Google Sign-In Error:", error.message);
   };
   return {
