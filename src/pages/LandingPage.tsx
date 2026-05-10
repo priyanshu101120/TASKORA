@@ -5,15 +5,11 @@ import {
   Check, Sparkles, Bell, Trash2, ArrowRight, Rocket, Layers,
   Shield, Code2, Menu, X, Star, Zap,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import AuthModal from "../components/AuthModal";
-
 
 interface Plan {
   name: string;
@@ -29,7 +25,6 @@ const LandingPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [yearly, setYearly] = useState(false);
- 
 
   const plans: Plan[] = [
     {
@@ -60,12 +55,12 @@ const LandingPage = () => {
   ];
 
   const features = [
-    { icon: <Layers className="size-6" />, title: "Smart Columns", desc: "Drag-and-drop columns like 'To Do', 'Doing', 'Done' with custom workflows." },
-    { icon: <Rocket className="size-6" />, title: "Lightning Fast", desc: "Built with Vite + React for near-instant loads and buttery smooth UI." },
-    { icon: <Shield className="size-6" />, title: "Enterprise Security", desc: "Supabase-powered auth with row-level security and encrypted data." },
-    { icon: <Code2 className="size-6" />, title: "Modern Stack", desc: "Tailwind CSS + glassmorphism aesthetic with a premium developer feel." },
-    { icon: <Sparkles className="size-6" />, title: "AI Integrated", desc: "Taskora AI suggests sub-tasks, deadlines, and cleans your boards automatically." },
-    { icon: <Bell className="size-6" />, title: "Smart Notifications", desc: "Get reminders before deadlines slip — across email, push, and SMS." },
+    { icon: <Layers className="size-5" />, title: "Smart Columns", desc: "Drag-and-drop columns like 'To Do', 'Doing', 'Done' with custom workflows." },
+    { icon: <Rocket className="size-5" />, title: "Lightning Fast", desc: "Built with Next.js for near-instant loads and buttery smooth UI." },
+    { icon: <Shield className="size-5" />, title: "Enterprise Security", desc: "Supabase-powered auth with row-level security and encrypted data." },
+    { icon: <Code2 className="size-5" />, title: "Modern Stack", desc: "Tailwind CSS + glassmorphism aesthetic with a premium developer feel." },
+    { icon: <Sparkles className="size-5" />, title: "AI Integrated", desc: "Taskora AI suggests sub-tasks, deadlines, and cleans your boards automatically." },
+    { icon: <Bell className="size-5" />, title: "Smart Notifications", desc: "Get reminders before deadlines slip — across email, push, and SMS." },
   ];
 
   const steps = [
@@ -90,200 +85,230 @@ const LandingPage = () => {
     { q: "Do you offer student discounts?", a: "Yes! Students get Pro free with a valid .edu email. Just sign up and verify." },
   ];
 
-  const companies = ["Vercel", "Supabase", "Linear", "Notion", "Stripe", "Figma"];
+ 
+
+  const dotColors = ["bg-[#95d5b2]", "bg-[#74c8a4]", "bg-[#7ec8e3]", "bg-[#d4aaff]", "bg-[#ffd6a5]", "bg-[#c8f0a0]"];
 
   return (
-    <div className="min-h-screen bg-[#023020] text-white overflow-x-hidden">
-      {/* Background Glow */}
-      <div className="fixed inset-0 bg-linear-to-br from-[#023020] via-[#054d33] to-[#023020] -z-10" />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-200 h-200 bg-[#cef19f]/10 rounded-full blur-[120px] -z-10" />
+    <div className="relative min-h-screen bg-[#080d0b] text-white overflow-x-hidden font-[Inter,sans-serif]">
 
-      {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#023020]/70 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="size-8 rounded-lg bg-[#cef19f] flex items-center justify-center">
-              <Zap className="size-5 text-[#023020]" />
-            </div>
-            <span className="text-xl font-black tracking-tight">Taskora</span>
+      {/* ── Grain noise overlay ── */}
+      <div
+        className="pointer-events-none fixed inset-0 z-1 opacity-[0.035]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* ── Mesh blobs ── */}
+      <div className="pointer-events-none fixed -top-20 -right-16 w-105 h-105 z-0"
+        style={{ background: "radial-gradient(circle, #1a3d2b 0%, transparent 70%)" }} />
+      <div className="pointer-events-none fixed -bottom-24 -left-20 w-95 h-95 z-0"
+        style={{ background: "radial-gradient(circle, #0f2d1c 0%, transparent 70%)" }} />
+      <div className="pointer-events-none fixed top-[40%] left-[35%] w-70 h-70 z-0"
+        style={{ background: "radial-gradient(circle, rgba(180,230,160,0.04) 0%, transparent 65%)" }} />
+
+      {/* ── NAVBAR ── */}
+      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-8 py-4 border-b border-white/6 bg-[#080d0b]/70 backdrop-blur-xl">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-[#c8f0a0] flex items-center justify-center">
+            <Zap className="w-4 h-4 text-[#080d0b]" />
           </div>
+          <h1 className="text-lg font-bold text-[#c8f0a0] tracking-tight"
+            style={{ fontFamily: "'Fraunces', serif" }}>
+            Taskora
+          </h1>
+        </div>
 
-          <div className="hidden md:flex items-center gap-8 text-sm text-slate-300">
-            <a href="#features" className="hover:text-[#cef19f] transition">Features</a>
-            <a href="#how" className="hover:text-[#cef19f] transition">How it Works</a>
-            <a href="#pricing" className="hover:text-[#cef19f] transition">Pricing</a>
-            <a href="#faq" className="hover:text-[#cef19f] transition">FAQ</a>
-          </div>
+        <div className="hidden md:flex items-center gap-8 text-xs text-white/40">
+          <a href="#features" className="hover:text-[#c8f0a0] transition-colors tracking-wide">Features</a>
+          <a href="#how" className="hover:text-[#c8f0a0] transition-colors tracking-wide">How it Works</a>
+          <a href="#pricing" className="hover:text-[#c8f0a0] transition-colors tracking-wide">Pricing</a>
+          <a href="#faq" className="hover:text-[#c8f0a0] transition-colors tracking-wide">FAQ</a>
+        </div>
 
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" onClick={() => setShowModal(true)} className="text-white hover:bg-white/10 hover:text-white">
-              Login
-            </Button>
-            <Button onClick={() => setShowModal(true)} className="bg-[#cef19f] text-[#023020] hover:bg-[#cef19f]/90 font-bold rounded-full">
-              Get Started
-            </Button>
-          </div>
-
-          <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X /> : <Menu />}
+        <div className="hidden md:flex items-center gap-2">
+          <button onClick={() => setShowModal(true)}
+            className="text-[11px] text-white/40 border border-white/10 px-3 py-1.5 rounded-md bg-white/4 hover:bg-white/8 hover:text-white/70 transition-colors">
+            Login
+          </button>
+          <button onClick={() => setShowModal(true)}
+            className="text-[11px] bg-[#c8f0a0] text-[#080d0b] font-bold px-3 py-1.5 rounded-md hover:bg-[#b8e580] active:scale-[0.98] transition-all">
+            Get Started
           </button>
         </div>
 
-        {mobileOpen && (
-          <div className="md:hidden border-t border-white/10 px-6 py-4 flex flex-col gap-4 bg-[#023020]/95">
-            <a href="#features" className="text-slate-300">Features</a>
-            <a href="#how" className="text-slate-300">How it Works</a>
-            <a href="#pricing" className="text-slate-300">Pricing</a>
-            <a href="#faq" className="text-slate-300">FAQ</a>
-            <Button onClick={() => setShowModal(true)} className="bg-[#cef19f] text-[#023020] font-bold rounded-full">
-              Get Started
-            </Button>
-          </div>
-        )}
+        <button className="md:hidden text-white/40" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
       </nav>
 
-      {/* HERO */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 text-center pt-20 pb-32">
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-5xl w-full"
-        >
-          <Badge className="mb-6 bg-[#cef19f]/10 text-[#cef19f] border border-[#cef19f]/30 hover:bg-[#cef19f]/20">
-            <Sparkles className="size-3 mr-1.5" /> Now with Taskora AI Assistant
-          </Badge>
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden border-b border-white/6 px-6 py-4 flex flex-col gap-4 bg-[#080d0b]/95 backdrop-blur-xl z-40 relative">
+          {["features", "how", "pricing", "faq"].map(s => (
+            <a key={s} href={`#${s}`} onClick={() => setMobileOpen(false)}
+              className="text-white/40 text-sm capitalize hover:text-[#c8f0a0] transition-colors">
+              {s === "how" ? "How it Works" : s.charAt(0).toUpperCase() + s.slice(1)}
+            </a>
+          ))}
+          <button onClick={() => { setShowModal(true); setMobileOpen(false); }}
+            className="bg-[#c8f0a0] text-[#080d0b] font-bold py-2 rounded-xl text-sm">
+            Get Started
+          </button>
+        </div>
+      )}
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter leading-[1.05]">
+      {/* ── HERO ── */}
+      <section className="relative z-10 min-h-[90vh] flex flex-col items-center justify-center px-6 text-center pt-20 pb-24">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="max-w-4xl w-full">
+
+          <div className="inline-flex items-center gap-1.5 mb-6 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+            <Sparkles size={10} /> Now with Taskora AI Assistant
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-[1.05] text-[#e8f5e0]"
+            style={{ fontFamily: "'Fraunces', serif" }}>
             Manage Projects <br className="hidden md:block" />
-            with <span className="text-[#cef19f]">Taskora</span>
+            with <span className="text-[#c8f0a0] italic">Taskora</span>
           </h1>
 
-          <p className="text-slate-300 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-white/40 text-sm md:text-base mb-10 leading-relaxed max-w-xl mx-auto">
             The premium way to organize tasks. Smooth glassmorphism UI, powerful AI assistant,
             and full-stack speed — all in one beautiful workspace.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            <Button
-              onClick={() => setShowModal(true)}
-              size="lg"
-              className="bg-[#cef19f] text-[#023020] hover:bg-[#cef19f]/90 font-bold text-lg px-8 py-6 rounded-full shadow-[0_0_40px_rgba(206,241,159,0.3)]"
-            >
-              Get Started — It&apos;s Free <ArrowRight className="ml-2 size-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white text-lg px-8 py-6 rounded-full"
-            >
+          <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+            <button onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 bg-[#c8f0a0] text-[#080d0b] font-bold px-6 py-3 rounded-xl hover:bg-[#b8e580] active:scale-[0.98] transition-all text-sm">
+              Get Started — It&apos;s Free <ArrowRight size={15} />
+            </button>
+            <button className="flex items-center gap-2 text-white/40 border border-white/10 px-6 py-3 rounded-xl bg-white/4 hover:bg-white/8 hover:text-white/60 transition-all text-sm">
               Watch Demo
-            </Button>
+            </button>
           </div>
 
-          <p className="text-slate-500 text-sm mt-6">No credit card required • Free forever plan</p>
+          <p className="text-white/20 text-[11px] mt-5 tracking-wide">No credit card required · Free forever plan</p>
         </motion.div>
 
         {/* Hero Mockup */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-20 w-full max-w-6xl"
-        >
-          <div className="relative rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-2 shadow-2xl">
-            <div className="rounded-xl bg-[#023020]/60 p-6">
-              <div className="flex gap-2 mb-4">
-                <div className="size-3 rounded-full bg-red-400/60" />
-                <div className="size-3 rounded-full bg-yellow-400/60" />
-                <div className="size-3 rounded-full bg-green-400/60" />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                {["To Do", "In Progress", "Done"].map((col) => (
-                  <div key={col} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                    <h4 className="text-sm font-bold mb-3 text-[#cef19f]">{col}</h4>
-                    {[1, 2].map((t) => (
-                      <div key={t} className="bg-white/5 rounded p-3 mb-2 border border-white/5">
-                        <div className="h-2 w-3/4 bg-white/20 rounded mb-2" />
-                        <div className="h-2 w-1/2 bg-white/10 rounded" />
-                      </div>
-                    ))}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-16 w-full max-w-4xl relative z-10">
+          <div
+            className="relative rounded-2xl border border-white/8 backdrop-blur-md p-4"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+              boxShadow: "0 1px 0 inset rgba(255,255,255,0.06), 0 24px 48px -12px rgba(0,0,0,0.6)",
+            }}>
+            {/* Tactile top highlight */}
+            <div className="absolute top-0 left-[10%] right-[10%] h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)" }} />
+            <div className="flex gap-1.5 mb-4 px-1">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-400/50" />
+              <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/50" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#c8f0a0]/50" />
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { name: "To Do", dot: "bg-[#95d5b2]", tasks: ["Design mockups", "Write docs"] },
+                { name: "In Progress", dot: "bg-[#7ec8e3]", tasks: ["Build API", "Fix auth"] },
+                { name: "Done", dot: "bg-[#c8f0a0]", tasks: ["Setup DB", "Deploy MVP"] },
+              ].map((col) => (
+                <div key={col.name}
+                  className="rounded-xl border border-white/8 p-3"
+                  style={{ background: "rgba(255,255,255,0.03)" }}>
+                  <div className="flex items-center gap-1.5 mb-3">
+                    <div className={`w-1.5 h-1.5 rounded-full ${col.dot}`} />
+                    <span className="text-[10px] font-semibold text-white/60 uppercase tracking-widest">{col.name}</span>
                   </div>
-                ))}
-              </div>
+                  {col.tasks.map(t => (
+                    <div key={t} className="bg-white/5 border border-white/8 rounded-lg p-2.5 mb-2">
+                      <div className="h-1.5 w-3/4 bg-white/20 rounded mb-1.5" />
+                      <div className="h-1.5 w-1/2 bg-white/10 rounded" />
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* SOCIAL PROOF */}
-      <section className="py-12 border-y border-white/5 bg-black/20">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-center text-slate-500 text-sm mb-8 uppercase tracking-widest">
-            Trusted by teams using
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-            {companies.map((c) => (
-              <span key={c} className="text-slate-400 text-xl font-bold opacity-60 hover:opacity-100 transition">
-                {c}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
-      {/* FEATURES BENTO */}
-      <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">Features</Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-            Everything you need, <span className="text-[#cef19f]">nothing you don&apos;t</span>
+      {/* ── FEATURES ── */}
+      <section id="features" className="relative z-10 py-24 px-6 max-w-6xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+            Features
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-[#e8f5e0]"
+            style={{ fontFamily: "'Fraunces', serif" }}>
+            Everything you need,{" "}
+            <span className="text-[#c8f0a0] italic">nothing you don&apos;t</span>
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          <p className="text-white/30 text-sm max-w-xl mx-auto">
             Built for solo developers, small teams, and growing businesses alike.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((f, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <Card className="p-8 bg-white/5 border-white/10 hover:bg-white/10 hover:border-[#cef19f]/30 transition-all group h-full">
-                <div className="size-12 rounded-xl bg-[#cef19f]/10 flex items-center justify-center text-[#cef19f] mb-4 group-hover:scale-110 transition-transform">
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+              <div
+                className="relative h-full rounded-2xl border border-white/8 backdrop-blur-md p-6 hover:border-[#c8f0a0]/25 transition-all group"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                  boxShadow: "0 1px 0 inset rgba(255,255,255,0.04), 0 8px 24px -8px rgba(0,0,0,0.4)",
+                }}>
+                <div className="absolute top-0 left-[10%] right-[10%] h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" }} />
+                <div className={`w-2 h-2 rounded-full ${dotColors[i % dotColors.length]} mb-4`} />
+                <div className="w-9 h-9 rounded-xl bg-[#c8f0a0]/10 flex items-center justify-center text-[#c8f0a0] mb-4 group-hover:scale-110 transition-transform">
                   {f.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-white">{f.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-              </Card>
+                <h3 className="text-sm font-bold mb-2 text-[#e8f5e0]"
+                  style={{ fontFamily: "'Fraunces', serif" }}>{f.title}</h3>
+                <p className="text-white/30 text-xs leading-relaxed">{f.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section id="how" className="py-24 px-6 bg-black/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">How it Works</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Get started in <span className="text-[#cef19f]">3 simple steps</span>
+      {/* ── HOW IT WORKS ── */}
+      <section id="how" className="relative z-10 py-24 px-6 border-y border-white/6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+              How it Works
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-[#e8f5e0]"
+              style={{ fontFamily: "'Fraunces', serif" }}>
+              Get started in{" "}
+              <span className="text-[#c8f0a0] italic">3 simple steps</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {steps.map((s, i) => (
               <div key={i} className="relative">
-                <div className="text-7xl font-black text-[#cef19f]/20 mb-4">{s.num}</div>
-                <h3 className="text-2xl font-bold mb-3">{s.title}</h3>
-                <p className="text-slate-400">{s.desc}</p>
+                <div
+                  className="h-full rounded-2xl border border-white/8 backdrop-blur-md p-6"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                    boxShadow: "0 1px 0 inset rgba(255,255,255,0.04)",
+                  }}>
+                  <div className="text-5xl font-bold text-[#c8f0a0]/20 mb-4"
+                    style={{ fontFamily: "'Fraunces', serif" }}>{s.num}</div>
+                  <h3 className="text-sm font-bold mb-2 text-[#e8f5e0]"
+                    style={{ fontFamily: "'Fraunces', serif" }}>{s.title}</h3>
+                  <p className="text-white/30 text-xs leading-relaxed">{s.desc}</p>
+                </div>
                 {i < steps.length - 1 && (
-                  <ArrowRight className="hidden md:block absolute top-8 -right-4 text-[#cef19f]/30 size-6" />
+                  <ArrowRight className="hidden md:block absolute top-8 -right-3 text-[#c8f0a0]/20 z-10" size={16} />
                 )}
               </div>
             ))}
@@ -291,28 +316,32 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* AI SHOWCASE */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
+      {/* ── AI SHOWCASE ── */}
+      <section className="relative z-10 py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-10 items-center">
             <div className="flex-1">
-              <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">AI Powered</Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
-                Meet your <span className="text-[#cef19f]">AI Assistant</span>
+              <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+                AI Powered
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-[#e8f5e0]"
+                style={{ fontFamily: "'Fraunces', serif" }}>
+                Meet your{" "}
+                <span className="text-[#c8f0a0] italic">AI Assistant</span>
               </h2>
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {[
-                  { icon: <Sparkles />, title: "Smart Task Generation", desc: "AI auto-creates sub-tasks based on your goals." },
-                  { icon: <Trash2 />, title: "Auto-Delete Management", desc: "Finished tasks archived or deleted to keep boards clean." },
-                  { icon: <Bell />, title: "Deadline Notifications", desc: "Smart alerts before your tasks are overdue." },
+                  { icon: <Sparkles size={14} />, title: "Smart Task Generation", desc: "AI auto-creates sub-tasks based on your goals." },
+                  { icon: <Trash2 size={14} />, title: "Auto-Delete Management", desc: "Finished tasks archived or deleted to keep boards clean." },
+                  { icon: <Bell size={14} />, title: "Deadline Notifications", desc: "Smart alerts before your tasks are overdue." },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="bg-[#cef19f]/10 p-3 rounded-xl text-[#cef19f] h-fit shrink-0">
+                  <div key={i} className="flex gap-3 items-start">
+                    <div className="w-7 h-7 rounded-lg bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 flex items-center justify-center text-[#c8f0a0] shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg mb-1">{item.title}</h4>
-                      <p className="text-slate-400">{item.desc}</p>
+                      <h4 className="text-sm font-semibold mb-0.5 text-[#e8f5e0]">{item.title}</h4>
+                      <p className="text-white/30 text-xs">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -320,198 +349,229 @@ const LandingPage = () => {
             </div>
 
             <div className="flex-1 w-full">
-              <Card className="bg-white/5 border-white/10 p-6 backdrop-blur-3xl">
+              <div
+                className="relative rounded-2xl border border-white/8 backdrop-blur-md p-5"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                  boxShadow: "0 1px 0 inset rgba(255,255,255,0.06), 0 24px 48px -12px rgba(0,0,0,0.6)",
+                }}>
+                <div className="absolute top-0 left-[10%] right-[10%] h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)" }} />
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="size-2 rounded-full bg-[#cef19f] animate-pulse" />
-                  <span className="text-xs text-slate-400 font-mono">TASKORA AI • LIVE</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#c8f0a0] animate-pulse" />
+                  <span className="text-[10px] text-white/30 tracking-widest uppercase">Taskora AI · Live</span>
                 </div>
-                <div className="bg-[#023020] p-4 rounded-xl border border-[#cef19f]/20 mb-3">
-                  <p className="text-sm text-[#cef19f]">
-                    👋 Hey! I noticed you completed 5 tasks yesterday. Should I archive them?
-                  </p>
+                <div className="space-y-3">
+                  <div className="bg-[#c8f0a0]/8 border border-[#c8f0a0]/15 p-3 rounded-xl">
+                    <p className="text-xs text-[#c8f0a0]/80 leading-relaxed">
+                      👋 Hey! I noticed you completed 5 tasks yesterday. Should I archive them?
+                    </p>
+                  </div>
+                  <div className="bg-white/5 border border-white/8 p-3 rounded-xl ml-4">
+                    <p className="text-xs text-white/50">Yes, archive them.</p>
+                  </div>
+                  <div className="bg-[#c8f0a0]/8 border border-[#c8f0a0]/15 p-3 rounded-xl">
+                    <p className="text-xs text-[#c8f0a0]/80 leading-relaxed">
+                      ✨ Done! Also, your &apos;Launch Landing Page&apos; task is due tomorrow — want me to break it into sub-tasks?
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/20 text-[10px] pt-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#c8f0a0]/50 animate-pulse" />
+                    Taskora is typing...
+                  </div>
                 </div>
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-3">
-                  <p className="text-sm text-slate-300">Yes, archive them.</p>
-                </div>
-                <div className="bg-[#023020] p-4 rounded-xl border border-[#cef19f]/20 mb-3">
-                  <p className="text-sm text-[#cef19f]">
-                    ✨ Done! Also, your &apos;Launch Landing Page&quot; task is due tomorrow — want me to break it into sub-tasks?
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 text-slate-500 text-xs">
-                  <div className="size-1.5 rounded-full bg-[#cef19f] animate-pulse" />
-                  Taskora is typing...
-                </div>
-              </Card>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="py-24 px-6 bg-black/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">Testimonials</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Loved by <span className="text-[#cef19f]">10,000+ users</span>
+      {/* ── TESTIMONIALS ── */}
+      <section className="relative z-10 py-24 px-6 border-y border-white/6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+              Testimonials
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-[#e8f5e0]"
+              style={{ fontFamily: "'Fraunces', serif" }}>
+              Loved by <span className="text-[#c8f0a0] italic">10,000+ users</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {testimonials.map((t, i) => (
-              <Card key={i} className="bg-white/5 border-white/10 p-6 hover:bg-white/10 transition">
-                <div className="flex gap-1 mb-3">
+              <div key={i}
+                className="relative rounded-2xl border border-white/8 backdrop-blur-md p-5 hover:border-[#c8f0a0]/20 transition-all"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                  boxShadow: "0 1px 0 inset rgba(255,255,255,0.04)",
+                }}>
+                <div className="flex gap-0.5 mb-3">
                   {Array.from({ length: t.rating }).map((_, idx) => (
-                    <Star key={idx} className="size-4 fill-[#cef19f] text-[#cef19f]" />
+                    <Star key={idx} className="w-3 h-3 fill-[#c8f0a0] text-[#c8f0a0]" />
                   ))}
                 </div>
-                <p className="text-slate-300 text-sm mb-4 leading-relaxed">&apos;{t.text}&apos;</p>
+                <p className="text-white/40 text-xs mb-4 leading-relaxed">&apos;{t.text}&apos;</p>
                 <div>
-                  <p className="font-bold text-white">{t.name}</p>
-                  <p className="text-slate-500 text-xs">{t.role}</p>
+                  <p className="font-semibold text-[#e8f5e0] text-xs">{t.name}</p>
+                  <p className="text-white/25 text-[10px]">{t.role}</p>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">Pricing</Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Choose your plan</h2>
-          <p className="text-slate-400 mb-8">Start free, upgrade when you need to.</p>
+      {/* ── PRICING ── */}
+      <section id="pricing" className="relative z-10 py-24 px-6 max-w-6xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+            Pricing
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-[#e8f5e0]"
+            style={{ fontFamily: "'Fraunces', serif" }}>
+            Choose your <span className="text-[#c8f0a0] italic">plan</span>
+          </h2>
+          <p className="text-white/30 text-sm mb-8">Start free, upgrade when you need to.</p>
 
-          <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-5 py-2">
-            <span className={!yearly ? "text-white font-bold" : "text-slate-400"}>Monthly</span>
+          <div className="inline-flex items-center gap-3 border border-white/8 bg-white/4 rounded-full px-4 py-2">
+            <span className={`text-xs ${!yearly ? "text-[#c8f0a0] font-bold" : "text-white/30"}`}>Monthly</span>
             <Switch checked={yearly} onCheckedChange={setYearly} />
-            <span className={yearly ? "text-white font-bold" : "text-slate-400"}>
-              Yearly <span className="text-[#cef19f] text-xs ml-1">Save 20%</span>
+            <span className={`text-xs ${yearly ? "text-[#c8f0a0] font-bold" : "text-white/30"}`}>
+              Yearly <span className="text-[#c8f0a0]/60 text-[10px] ml-1">Save 20%</span>
             </span>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-4">
           {plans.map((plan) => (
-            <Card
-              key={plan.name}
-              className={`p-8 rounded-3xl border flex flex-col hover:-translate-y-2 transition-all duration-300 backdrop-blur-lg relative overflow-hidden ${
-                plan.highlight
-                  ? "bg-[#cef19f]/10 border-[#cef19f]/40 shadow-[0_0_60px_rgba(206,241,159,0.15)]"
-                  : "bg-white/5 border-white/10"
-              }`}
-            >
+            <div key={plan.name}
+              className="relative rounded-2xl border backdrop-blur-md p-6 flex flex-col transition-all hover:-translate-y-1"
+              style={{
+                background: plan.highlight
+                  ? "linear-gradient(135deg, rgba(200,240,160,0.08) 0%, rgba(200,240,160,0.03) 100%)"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+                borderColor: plan.highlight ? "rgba(200,240,160,0.25)" : "rgba(255,255,255,0.08)",
+                boxShadow: plan.highlight
+                  ? "0 1px 0 inset rgba(200,240,160,0.1), 0 24px 48px -12px rgba(0,0,0,0.5)"
+                  : "0 1px 0 inset rgba(255,255,255,0.04), 0 8px 24px -8px rgba(0,0,0,0.4)",
+              }}>
               {plan.highlight && (
-                <div className="absolute top-0 right-0 bg-[#cef19f] text-[#023020] px-4 py-1 text-xs font-bold rounded-bl-xl uppercase">
-                  Most Popular
-                </div>
+                <div className="absolute top-0 left-[10%] right-[10%] h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(200,240,160,0.4), transparent)" }} />
               )}
-              <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-              <p className="text-slate-400 text-sm mb-6">{plan.description}</p>
-              <div className="mb-6">
-                <span className="text-5xl font-black">
+              {plan.highlight && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#c8f0a0] text-[#080d0b] text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                  Most Popular
+                </span>
+              )}
+              <h3 className="text-base font-bold mb-1 text-[#e8f5e0]"
+                style={{ fontFamily: "'Fraunces', serif" }}>{plan.name}</h3>
+              <p className="text-white/30 text-xs mb-5">{plan.description}</p>
+              <div className="mb-5">
+                <span className="text-4xl font-bold text-[#e8f5e0]"
+                  style={{ fontFamily: "'Fraunces', serif" }}>
                   ${yearly ? Math.floor(plan.yearly / 12) : plan.monthly}
                 </span>
-                <span className="text-slate-400 ml-2">/month</span>
+                <span className="text-white/30 text-xs ml-1">/month</span>
                 {yearly && plan.monthly > 0 && (
-                  <p className="text-xs text-[#cef19f] mt-1">Billed ${plan.yearly}/year</p>
+                  <p className="text-[10px] text-[#c8f0a0]/60 mt-1">Billed ${plan.yearly}/year</p>
                 )}
               </div>
-              <ul className="space-y-3 mb-8 flex-1">
+              <ul className="space-y-2.5 mb-6 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm text-slate-300">
-                    <Check className="text-[#cef19f] size-4 mt-0.5 shrink-0" />
+                  <li key={feature} className="flex items-center gap-2 text-xs text-white/50">
+                    <Check className="text-[#c8f0a0] shrink-0" size={12} />
                     {feature}
                   </li>
                 ))}
               </ul>
-              <Button
-                onClick={() => setShowModal(true)}
-                className={`w-full rounded-xl font-bold ${
+              <button onClick={() => setShowModal(true)}
+                className={`w-full py-2.5 rounded-xl font-bold text-xs transition-all active:scale-[0.98] ${
                   plan.highlight
-                    ? "bg-[#cef19f] text-[#023020] hover:bg-[#cef19f]/90"
-                    : "bg-white/10 hover:bg-white/20 text-white"
-                }`}
-              >
+                    ? "bg-[#c8f0a0] text-[#080d0b] hover:bg-[#b8e580]"
+                    : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"
+                }`}>
                 {plan.button}
-              </Button>
-            </Card>
+              </button>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="py-24 px-6 bg-black/20">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#cef19f]/10 text-[#cef19f] border-[#cef19f]/30">FAQ</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Frequently asked questions
+      {/* ── FAQ ── */}
+      <section id="faq" className="relative z-10 py-24 px-6 border-t border-white/6">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-1.5 mb-4 bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 text-[#c8f0a0] text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase">
+              FAQ
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-[#e8f5e0]"
+              style={{ fontFamily: "'Fraunces', serif" }}>
+              Frequently asked <span className="text-[#c8f0a0] italic">questions</span>
             </h2>
           </div>
 
-          <Accordion type="single" collapsible className="space-y-3">
+          <div className="space-y-2">
             {faqs.map((faq, i) => (
-              <AccordionItem
-                key={i}
-                value={`item-${i}`}
-                className="bg-white/5 border border-white/10 rounded-xl px-6"
-              >
-                <AccordionTrigger className="text-left hover:no-underline font-bold">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-slate-400">{faq.a}</AccordionContent>
-              </AccordionItem>
+              <Accordion key={i} type="single" collapsible>
+                <AccordionItem value={`item-${i}`}
+                  className="rounded-xl border border-white/8 px-5 mb-2"
+                  style={{ background: "rgba(255,255,255,0.03)" }}>
+                  <AccordionTrigger className="text-left text-sm font-semibold text-[#e8f5e0] hover:no-underline hover:text-[#c8f0a0] transition-colors py-4">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/40 text-xs leading-relaxed pb-4">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             ))}
-          </Accordion>
+          </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center bg-linear-to-br from-[#cef19f]/10 to-transparent border border-[#cef19f]/20 rounded-3xl p-12 backdrop-blur-xl">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-            Ready to transform your <span className="text-[#cef19f]">workflow?</span>
-          </h2>
-          <p className="text-slate-400 mb-8 max-w-xl mx-auto">
-            Join 10,000+ users building better products with Taskora.
-          </p>
-          <Button
-            onClick={() => setShowModal(true)}
-            size="lg"
-            className="bg-[#cef19f] text-[#023020] hover:bg-[#cef19f]/90 font-bold text-lg px-10 py-6 rounded-full"
-          >
-            Build Your First Board <ArrowRight className="ml-2 size-5" />
-          </Button>
+      {/* ── FINAL CTA ── */}
+      <section className="relative z-10 py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <div
+            className="relative rounded-2xl border border-white/8 backdrop-blur-md px-8 py-14"
+            style={{
+              background: "linear-gradient(135deg, rgba(200,240,160,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+              boxShadow: "0 1px 0 inset rgba(200,240,160,0.1), 0 24px 48px -12px rgba(0,0,0,0.6)",
+            }}>
+            <div className="absolute top-0 left-[10%] right-[10%] h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(200,240,160,0.3), transparent)" }} />
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-[#e8f5e0]"
+              style={{ fontFamily: "'Fraunces', serif" }}>
+              Ready to transform your{" "}
+              <span className="text-[#c8f0a0] italic">workflow?</span>
+            </h2>
+            <p className="text-white/30 text-sm mb-8 max-w-md mx-auto">
+              Join 10,000+ users building better products with Taskora.
+            </p>
+            <button onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 mx-auto bg-[#c8f0a0] text-[#080d0b] font-bold px-6 py-3 rounded-xl hover:bg-[#b8e580] active:scale-[0.98] transition-all text-sm">
+              Build Your First Board <ArrowRight size={15} />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 py-12 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-8">
+      {/* ── FOOTER ── */}
+      <footer className="relative z-10 border-t border-white/6 py-10 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8 mb-8">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="size-8 rounded-lg bg-[#cef19f] flex items-center justify-center">
-                <Zap className="size-5 text-[#023020]" />
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-6 h-6 rounded-md bg-[#c8f0a0] flex items-center justify-center">
+                <Zap className="w-3.5 h-3.5 text-[#080d0b]" />
               </div>
-              <span className="text-xl font-black">Taskora</span>
+              <span className="font-bold text-[#c8f0a0] text-sm" style={{ fontFamily: "'Fraunces', serif" }}>Taskora</span>
             </div>
-            <p className="text-slate-400 text-sm mb-4 max-w-xs">
+            <p className="text-white/25 text-xs leading-relaxed max-w-xs">
               The premium way to organize tasks. Built for everyone, loved by teams.
             </p>
-            {/* <div className="flex gap-3">
-              <a href="#" className="size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition">
-                <Twitter className="size-4" />
-              </a>
-              <a href="#" className="size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition">
-                <Github className="size-4" />
-              </a>
-              <a href="#" className="size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition">
-                <Linkedin className="size-4" />
-              </a>
-            </div> */}
           </div>
 
           {[
@@ -520,11 +580,11 @@ const LandingPage = () => {
             { title: "Legal", links: ["Privacy", "Terms", "Security", "Cookies"] },
           ].map((col) => (
             <div key={col.title}>
-              <h4 className="font-bold mb-4 text-white">{col.title}</h4>
+              <h4 className="font-semibold text-white/60 text-[11px] uppercase tracking-widest mb-3">{col.title}</h4>
               <ul className="space-y-2">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="text-slate-400 text-sm hover:text-[#cef19f] transition">{l}</a>
+                    <a href="#" className="text-white/25 text-xs hover:text-[#c8f0a0] transition-colors">{l}</a>
                   </li>
                 ))}
               </ul>
@@ -532,7 +592,7 @@ const LandingPage = () => {
           ))}
         </div>
 
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between gap-4 text-sm text-slate-500">
+        <div className="max-w-6xl mx-auto pt-6 border-t border-white/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] text-white/20">
           <p>© 2026 Taskora. All rights reserved.</p>
           <p>Made with 💚 for builders everywhere.</p>
         </div>
