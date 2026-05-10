@@ -11,6 +11,8 @@ const UseBoard = () => {
   const [boards, setBoards] = useState<Board[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
+  const [boardColumnCounts, setBoardColumnCounts] = useState<Record<string, number>>({});
+  const [boardTaskCounts, setBoardTaskCounts] = useState<Record<string, number>>({});
 
   const fetchBoardData = useCallback(async () => {
     if (!boardId || boardId === ":boardId") {
@@ -22,6 +24,31 @@ const UseBoard = () => {
           .eq("user_id", authData.user.id)
           .order("id", { ascending: true });
         setBoards((data as Board[]) || []);
+         const { data: allColumns } = await supabase
+          .from("columns")
+          .select("id, board_id")
+          .in("board_id", (data || []).map((b: Board) => b.id));
+ 
+        // ✅ Har board ke liye task count fetch karo
+        const { data: allTasks } = await supabase
+          .from("task")
+          .select("id, board_id")
+          .in("board_id", (data || []).map((b: Board) => b.id));
+ 
+        // Board ID se column count map banao
+        const colCounts: Record<string, number> = {};
+        const taskCounts: Record<string, number> = {};
+ 
+        (allColumns || []).forEach((col: { id: string; board_id: string }) => {
+          colCounts[col.board_id] = (colCounts[col.board_id] || 0) + 1;
+        });
+ 
+        (allTasks || []).forEach((task: { id: string; board_id: string }) => {
+          taskCounts[task.board_id] = (taskCounts[task.board_id] || 0) + 1;
+        });
+ 
+        setBoardColumnCounts(colCounts);
+        setBoardTaskCounts(taskCounts);
       }
       setLoading(false);
       return;
@@ -197,6 +224,8 @@ const updateColumn = async (columnId: string, newName: string) => {
     addColumn,
     addBoard,
     updateBoard,
+    boardColumnCounts,
+    boardTaskCounts,
   };
 };
 export default UseBoard;

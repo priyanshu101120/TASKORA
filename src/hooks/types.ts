@@ -24,8 +24,23 @@ export interface Board {
   created_at: string;
   is_pinned: boolean;
 }
+export interface Plan {
+  name: string;
+  monthly: number;
+  yearly: number;
+  description: string;
+  features: string[];
+  button: string;
+  highlight?: boolean;
+}
+export type BoardsProps={
+  initials: string;
+}
 
-
+export type MyBoardStatsProps = {
+  loading: boolean;
+  boards: Board[];
+};
 export const getRelativeTime = (dateStr: string | null | undefined): string => {
   if (!dateStr) return "Never";
   const diff = Date.now() - new Date(dateStr).getTime();

@@ -44,7 +44,6 @@ const LoginPage = () => {
 
   return (
     <main className="relative min-h-screen bg-[#080d0b] flex items-center justify-center p-4 overflow-hidden font-[Inter,sans-serif]">
-      {/* ── Grain noise overlay ── */}
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-[0.035]"
         style={{
@@ -52,7 +51,6 @@ const LoginPage = () => {
         }}
       />
 
-      {/* ── Mesh blobs ── */}
       <div
         className="pointer-events-none fixed -top-20 -right-16 w-105 h-105 z-0"
         style={{
@@ -73,7 +71,6 @@ const LoginPage = () => {
         }}
       />
 
-      {/* ── Card ── */}
       <div
         className="relative z-10 w-full max-w-sm rounded-2xl border border-white/8 backdrop-blur-md px-7 py-8"
         style={{
@@ -83,7 +80,6 @@ const LoginPage = () => {
             "0 1px 0 inset rgba(255,255,255,0.06), 0 24px 48px -12px rgba(0,0,0,0.6)",
         }}
       >
-        {/* Tactile top highlight */}
         <div
           className="absolute top-0 left-[10%] right-[10%] h-px"
           style={{
@@ -92,7 +88,6 @@ const LoginPage = () => {
           }}
         />
 
-        {/* Logo / Brand */}
         <div className="mb-7 text-center">
           <h1
             className="text-2xl font-bold text-[#c8f0a0] tracking-tight mb-1"
@@ -106,7 +101,6 @@ const LoginPage = () => {
         </div>
 
         <form onSubmit={handleSubmitForm} className="space-y-3">
-          {/* Name field — signup only */}
           {isSignUp && (
             <div className="relative group">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
@@ -125,7 +119,6 @@ const LoginPage = () => {
             </div>
           )}
 
-          {/* Email */}
           <div className="relative group">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <Mail
@@ -142,7 +135,6 @@ const LoginPage = () => {
             />
           </div>
 
-          {/* Password */}
           <div className="relative group">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
               <Lock
@@ -172,14 +164,12 @@ const LoginPage = () => {
             </button>
           </div>
 
-          {/* Error */}
           {errorMessage && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2">
               <p className="text-red-400 text-xs text-center">{errorMessage}</p>
             </div>
           )}
 
-          {/* Submit */}
           <div className="pt-1">
             <button
               type="submit"
@@ -194,7 +184,6 @@ const LoginPage = () => {
             </button>
           </div>
 
-          {/* Divider */}
           <div className="flex items-center gap-3 py-1">
             <hr className="flex-1 border-white/8" />
             <span className="text-[10px] text-white/25 font-medium tracking-widest uppercase">
@@ -203,7 +192,6 @@ const LoginPage = () => {
             <hr className="flex-1 border-white/8" />
           </div>
 
-          {/* Google */}
           <button
             type="button"
             onClick={loginWithGoogle}
@@ -233,7 +221,6 @@ const LoginPage = () => {
             </span>
           </button>
 
-          {/* Toggle */}
           <p className="text-center text-xs text-white/30 pt-1">
             {isSignUp ? "Already have an account? " : "Don't have an account? "}
             <button

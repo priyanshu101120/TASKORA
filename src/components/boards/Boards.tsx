@@ -4,11 +4,9 @@ import UseBoard from "@/hooks/useBoard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { TiPinOutline } from "react-icons/ti";
 import BoardsSkeletonLodder from "./BoardsSkeletonLodder";
-import { Skeleton } from "../ui/skeleton";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Trash2Icon, Plus, Pencil } from "lucide-react";
 import {
@@ -22,12 +20,23 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { getRelativeTime } from "@/hooks/types";
+import BoardNav from "./BoardNav";
+import MyboardStats from "./MyboardStats";
 
 const Boards = () => {
-  const router = useRouter();
-  const { logout, user } = useAuth();
-  const { loading, boards, addBoard, updateBoard, deleteBoard, pinBoard } =
-    UseBoard();
+  const { user } = useAuth();
+  const {
+    loading,
+    boards,
+    addBoard,
+    updateBoard,
+    deleteBoard,
+    pinBoard,
+    boardColumnCounts,
+    boardTaskCounts,
+  } = UseBoard();
+  console.log("Boards component - boardColumnCounts:", boardColumnCounts);
+  console.log("Boards component - boardTaskCounts:", boardTaskCounts);
   const [deletingBoardId, setDeletingBoardId] = useState<string | null>(null);
   const [editingBoard, setEditingBoard] = useState<{
     id: string;
@@ -48,28 +57,17 @@ const Boards = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
-  // Bento span pattern — first card big, second wide, then alternating
   const getSpan = (i: number) => {
     const patterns = [
-      "md:col-span-1 md:row-span-1", // normal
-      "md:col-span-2 md:row-span-1", // wide
-      "md:col-span-1 md:row-span-1", // normal
-      "md:col-span-1 md:row-span-1", // normal
-      "md:col-span-1 md:row-span-1", // wide
+      "md:col-span-1 md:row-span-1",
+      "md:col-span-2 md:row-span-1",
+      "md:col-span-1 md:row-span-1",
+      "md:col-span-1 md:row-span-1",
+      "md:col-span-1 md:row-span-1",
     ];
     return patterns[i % patterns.length];
   };
 
-  // Color dot variants for cards
   const dotColors = [
     "bg-[#95d5b2]",
     "bg-[#74c8a4]",
@@ -77,8 +75,6 @@ const Boards = () => {
     "bg-[#d4aaff]",
   ];
 
-  // Get user initials for avatar
-  // Agar name user_metadata mein store hai
   const initials =
     user?.user_metadata?.name
       ?.split(" ")
@@ -91,7 +87,6 @@ const Boards = () => {
 
   return (
     <div className="relative min-h-screen bg-[#080d0b] overflow-hidden font-[Inter,sans-serif]">
-      {/* ── Grain noise texture overlay ────────────────────────── */}
       <div
         className="pointer-events-none fixed inset-0 z-1 opacity-[0.035]"
         style={{
@@ -99,7 +94,6 @@ const Boards = () => {
         }}
       />
 
-      {/* ── Mesh gradient blobs ────────────────────────────────── */}
       <div
         className="pointer-events-none fixed -top-20 -right-16 w-105 h-105 z-0"
         style={{
@@ -120,63 +114,11 @@ const Boards = () => {
         }}
       />
 
-      {/* ── Navbar ─────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-8 py-4 border-b border-white/6 bg-[#080d0b]/70 backdrop-blur-xl">
-        <h1
-          className="text-lg md:text-xl font-bold text-[#c8f0a0] tracking-tight"
-          style={{ fontFamily: "'Fraunces', serif" }}
-        >
-          Taskora
-        </h1>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#c8f0a0]/10 border border-[#c8f0a0]/20 flex items-center justify-center text-[10px] font-medium text-[#c8f0a0]">
-            {initials}
-          </div>
-          <button
-            onClick={handleLogout}
-            className="text-[11px] text-white/40 border border-white/10 px-3 py-1.5 rounded-md bg-white/4 hover:bg-white/8 hover:text-white/70 transition-colors"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <BoardNav initials={initials} />
 
-      {/* ── Main ───────────────────────────────────────────────── */}
       <main className="relative z-2 px-6 md:px-8 py-6 md:py-8">
-        {/* ── Page heading ─────────────────────────────────────── */}
-        <div className="mb-6 md:mb-8">
-          {loading ? (
-            <>
-              <Skeleton className="h-3 w-40 rounded bg-white/5 mb-2" />
-              <Skeleton className="h-9 w-52 rounded-lg bg-white/10 mb-2" />
-              <Skeleton className="h-3 w-32 rounded bg-white/5" />
-            </>
-          ) : (
-            <>
-              <div className="text-[10px] tracking-[0.12em] uppercase text-[#c8f0a0]/40 mb-1.5">
-                workspace · your boards
-              </div>
-              <h2
-                className="text-2xl md:text-4xl font-bold text-[#e8f5e0] leading-tight tracking-tight"
-                style={{ fontFamily: "'Fraunces', serif" }}
-              >
-                My{" "}
-                <span
-                  className="text-[#c8f0a0] not-italic"
-                  style={{ fontStyle: "italic" }}
-                >
-                  Boards
-                </span>
-              </h2>
-              <p className="text-xs text-white/30 mt-1.5">
-                {boards.length} active{" "}
-                {boards.length === 1 ? "board" : "boards"}
-              </p>
-            </>
-          )}
-        </div>
+        <MyboardStats loading={loading} boards={boards} />
 
-        {/* ── Bento Grid ───────────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-[minmax(170px,auto)] gap-3 md:gap-4">
           {loading ? (
             Array.from({ length: 7 }).map((_, i) => (
@@ -186,10 +128,8 @@ const Boards = () => {
             ))
           ) : (
             <>
-              {/* ── Real board cards ── */}
               {sortedBoards.map((board, i) => {
                 const dot = dotColors[i % dotColors.length];
-                // const isWide = getSpan(i).includes("col-span-2");
 
                 return (
                   <Link
@@ -206,7 +146,6 @@ const Boards = () => {
                           "0 1px 0 inset rgba(255,255,255,0.04), 0 8px 24px -8px rgba(0,0,0,0.4)",
                       }}
                     >
-                      {/* Tactile top highlight */}
                       <div
                         className="absolute top-0 left-[10%] right-[10%] h-px"
                         style={{
@@ -216,7 +155,6 @@ const Boards = () => {
                       />
 
                       <CardContent className="p- pb-0">
-                        {/* Card top: dot + menu */}
                         <div className="flex items-start justify-between mb-3">
                           <div
                             className={`w-2.5 h-2.5 rounded-full ${dot} mt-1`}
@@ -283,33 +221,15 @@ const Boards = () => {
                           Click to view board →
                         </p>
                       </CardContent>
-                      {/* Wide cards get a mini graph */}
-                      {/* {isWide && (
-                        <div className="flex items-end gap-1 h-8 mt-3">
-                          {[40, 55, 70, 45, 90, 65, 50, 38].map((h, idx) => (
-                            <div
-                              key={idx}
-                              className={`flex-1 rounded-t-[3px] ${
-                                idx === 4
-                                  ? "bg-[#c8f0a0]/45"
-                                  : idx === 2 || idx === 5
-                                    ? "bg-[#c8f0a0]/25"
-                                    : "bg-white/[0.07]"
-                              }`}
-                              style={{ height: `${h}%` }}
-                            />
-                          ))}
-                        </div>
-                      )} */}
 
                       <CardFooter className="absolute bottom-0 left-5 right-5 pb-4 pt-2.5 flex items-center justify-between border-t border-white/6 px-0">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] text-white/40">
-                            3 tasks
+                            {boardTaskCounts[board.id] || 0} tasks
                           </span>
                           <span className="text-white/15">·</span>
                           <span className="text-[10px] text-white/40">
-                            4 columns
+                            {boardColumnCounts[board.id] || 0} columns
                           </span>
                         </div>
                         <span className="text-[10px] text-white/30">
@@ -323,7 +243,6 @@ const Boards = () => {
                 );
               })}
 
-              {/* ── "Add Board" — recessed inset card ── */}
               <div
                 className={`group transition-all ${
                   isAdding
@@ -408,7 +327,6 @@ const Boards = () => {
           )}
         </div>
 
-        {/* ── Empty state ── */}
         {!loading && boards.length === 0 && !isAdding && (
           <div className="mt-16 flex flex-col items-center text-center">
             <h2

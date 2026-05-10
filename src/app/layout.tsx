@@ -42,7 +42,7 @@ export default function RootLayout({
         geistSans.variable, 
         geistMono.variable, 
         inter.variable, 
-        fraunces.variable, // 2. Added the CSS variable here
+        fraunces.variable,
         "font-sans"
       )}
     >
