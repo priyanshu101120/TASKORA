@@ -2,43 +2,67 @@
 import useAuthh from "@/hooks/useAuth";
 import { EyeOff, Lock, Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import { useState } from "react";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Must contain at least one number")
+    .regex(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Must contain at least one special character",
+    ),
+});
+
+const singnUpSchema = loginSchema.extend({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .min(2, "Name must be at least 2 characters")
+    .optional(),
+});
+
+type SignUpData = z.infer<typeof singnUpSchema>;
 
 const LoginPage = () => {
   const router = useRouter();
   const { login, signUp, loginWithGoogle } = useAuthh();
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isSignUp, setIsSignUp] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState("");
 
-  const handleSubmitForm = async (e: FormEvent) => {
-    e.preventDefault();
-    setErrorMessage("");
-    if (!email || !password) {
-      setErrorMessage("Please fill in all fields.");
-      return;
-    }
-    setIsLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<SignUpData>({
+    resolver: zodResolver(isSignUp ? singnUpSchema : loginSchema),
+  });
+
+  const onSubmit: SubmitHandler<SignUpData> = async (data: SignUpData) => {
     try {
       if (isSignUp) {
-        await signUp(name, email, password);
+        await signUp(data.name ?? "", data.email, data.password);
         setIsSignUp(false);
         alert("Account created successfully! Now you can login.");
         router.refresh();
         router.push("/boards");
       } else {
-        await login(email, password);
+        await login(data.email, data.password);
         router.refresh();
         router.push("/boards");
       }
-    } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      setServerError(errorMessage);
     }
   };
 
@@ -100,7 +124,11 @@ const LoginPage = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmitForm} className="space-y-3">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          key={String(isSignUp)}
+          className="space-y-3"
+        >
           {isSignUp && (
             <div className="relative group">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
@@ -112,10 +140,14 @@ const LoginPage = () => {
               <input
                 type="text"
                 placeholder="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                {...register("name")}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#c8f0a0]/40 focus:bg-white/8 transition-all"
               />
+              {errors.name && (
+                <p className="text-red-400 text-xs mt-1 pl-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
           )}
 
@@ -129,10 +161,14 @@ const LoginPage = () => {
             <input
               type="email"
               placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#c8f0a0]/40 focus:bg-white/8 transition-all"
             />
+            {errors.email && (
+              <p className="text-red-400 text-xs mt-1 pl-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="relative group">
@@ -145,8 +181,7 @@ const LoginPage = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-12 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#c8f0a0]/40 focus:bg-white/8 transition-all"
             />
             <button
@@ -162,21 +197,26 @@ const LoginPage = () => {
                 </span>
               )}
             </button>
+            {errors.password && (
+              <p className="text-red-400 text-xs mt-1 pl-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          {errorMessage && (
+          {serverError && (
             <div className="rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2">
-              <p className="text-red-400 text-xs text-center">{errorMessage}</p>
+              <p className="text-red-400 text-xs text-center">{serverError}</p>
             </div>
           )}
 
           <div className="pt-1">
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full bg-[#c8f0a0] text-[#080d0b] font-bold py-2.5 rounded-xl hover:bg-[#b8e580] active:scale-[0.98] transition-all text-sm tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading
+              {isSubmitting
                 ? "Please wait..."
                 : isSignUp
                   ? "Create Account"
@@ -227,7 +267,8 @@ const LoginPage = () => {
               type="button"
               onClick={() => {
                 setIsSignUp(!isSignUp);
-                setErrorMessage("");
+                setServerError("");
+                reset();
               }}
               className="text-[#c8f0a0]/70 hover:text-[#c8f0a0] font-semibold transition-colors underline underline-offset-4"
             >
