@@ -31,7 +31,7 @@ const Boards = () => {
     addBoard,
     updateBoard,
     deleteBoard,
-    pinBoard,
+    // pinBoard,
     boardColumnCounts,
     boardTaskCounts,
   } = UseBoard();
@@ -198,11 +198,11 @@ const Boards = () => {
                             <button
                               aria-label="Pin board"
                               className="p-1 rounded hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                pinBoard(board.id, !board.is_pinned);
-                              }}
+                              // onClick={(e) => {
+                              //   e.preventDefault();
+                              //   e.stopPropagation();
+                              //   pinBoard(board.id);
+                              // }}
                             >
                               <TiPinOutline className="text-white/50 hover:text-[#c8f0a0]" />
                             </button>
@@ -224,7 +224,7 @@ const Boards = () => {
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] text-white/40">
                             {boardTaskCounts[board.id] || 0} tasks
-                          </span> 
+                          </span>
                           <span className="text-white/15">·</span>
                           <span className="text-[10px] text-white/40">
                             {boardColumnCounts[board.id] || 0} columns

@@ -137,17 +137,17 @@ const UseBoard = () => {
     }
   };
 
-  const pinBoard = async (boardId: string) => {
-    try {
-      await boardApi.pin(boardId, true);
-      await fetchBoardData();
-    } catch (error) {
-      console.error(
-        "error pinning board",
-        error instanceof Error ? error.message : String(error),
-      );
-    }
-  };
+  // const pinBoard = async (boardId: string) => {
+  //   try {
+  //     await boardApi.pin(boardId, true);
+  //     await fetchBoardData();
+  //   } catch (error) {
+  //     console.error(
+  //       "error pinning board",
+  //       error instanceof Error ? error.message : String(error),
+  //     );
+  //   }
+  // };
 
   const addColumn = async (columnName: string) => {
     try {
@@ -222,7 +222,7 @@ const UseBoard = () => {
     addTask,
     addColumn,
     updateColumn,
-    pinBoard,
+    // pinBoard,
     deleteBoard,
     deleteTask,
     deleteColumns,
