@@ -35,8 +35,6 @@ const Boards = () => {
     boardColumnCounts,
     boardTaskCounts,
   } = UseBoard();
-  console.log("Boards component - boardColumnCounts:", boardColumnCounts);
-  console.log("Boards component - boardTaskCounts:", boardTaskCounts);
   const [deletingBoardId, setDeletingBoardId] = useState<string | null>(null);
   const [editingBoard, setEditingBoard] = useState<{
     id: string;
@@ -75,15 +73,15 @@ const Boards = () => {
     "bg-[#d4aaff]",
   ];
 
-  const initials =
-    user?.user_metadata?.name
-      ?.split(" ")
-      .map((n: string) => n[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase() ||
-    user?.email?.slice(0, 2).toUpperCase() ||
-    "??";
+ const initials =
+  user?.name
+    ?.split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() ||
+  user?.email?.slice(0, 2).toUpperCase() ||
+  "??";
 
   return (
     <div className="relative min-h-screen bg-[#080d0b] overflow-hidden font-[Inter,sans-serif]">
@@ -226,7 +224,7 @@ const Boards = () => {
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] text-white/40">
                             {boardTaskCounts[board.id] || 0} tasks
-                          </span>
+                          </span> 
                           <span className="text-white/15">·</span>
                           <span className="text-[10px] text-white/40">
                             {boardColumnCounts[board.id] || 0} columns

@@ -8,6 +8,16 @@ export interface Task {
   due_date: string;
 }
 
+export interface TaskResponse {
+  _id: string;
+  title: string;
+  description: string;
+  assignee: string;
+  dueDate: string;      
+  column: string;       
+  board: string;       
+}
+
 export interface Column {
   id: string;
   name: string;
@@ -16,6 +26,14 @@ export interface Column {
   order: number;
   task?: Task[]; // Formatted data ke liye
 }
+export interface ColumnResponse {
+  _id: string;
+  name: string;
+  column_name: string;
+  board: string;
+  order: number;  
+  task: Task[];
+}
 
 export interface Board {
   id: string;
@@ -23,6 +41,14 @@ export interface Board {
   user_id: string;
   created_at: string;
   is_pinned: boolean;
+  owner: string;
+}
+export interface BoardResponse {
+  _id: string;
+  title: string;
+  is_pinned?: boolean;
+  createdAt: string;
+  owner: string;
 }
 export interface Plan {
   name: string;
@@ -33,9 +59,9 @@ export interface Plan {
   button: string;
   highlight?: boolean;
 }
-export type BoardsProps={
+export type BoardsProps = {
   initials: string;
-}
+};
 
 export type MyBoardStatsProps = {
   loading: boolean;
@@ -54,3 +80,14 @@ export const getRelativeTime = (dateStr: string | null | undefined): string => {
   if (days === 1) return "Yesterday";
   return `${days} days ago`;
 };
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

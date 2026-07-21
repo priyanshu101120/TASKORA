@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { AuthProvider } from "@/context/AuthContext";
 
 // 1. Next.js handles the fetching and hosting of the font automatically
 const fraunces = Fraunces({
@@ -11,7 +12,7 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
 });
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,16 +38,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        "h-full", 
-        "antialiased", 
-        geistSans.variable, 
-        geistMono.variable, 
-        inter.variable, 
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        inter.variable,
         fraunces.variable,
-        "font-sans"
+        "font-sans",
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
