@@ -19,7 +19,7 @@ app.use(cokieParser());
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'taskora-production-3292.up.railway.app',
   credentials: true
 }))
 
