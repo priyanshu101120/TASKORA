@@ -19,7 +19,7 @@ app.use(cokieParser());
 
 
 app.use(cors({
-  origin: 'taskora-production-3292.up.railway.app',
+  origin: 'https://taskora-beta.vercel.app',
   credentials: true
 }))
 
