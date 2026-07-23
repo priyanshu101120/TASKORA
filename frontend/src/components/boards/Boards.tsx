@@ -22,9 +22,11 @@ import {
 import { getRelativeTime } from "@/hooks/types";
 import BoardNav from "./BoardNav";
 import MyboardStats from "./MyboardStats";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Boards = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const {
     loading,
     boards,
@@ -42,6 +44,14 @@ const Boards = () => {
   } | null>(null);
   const [newBoardName, setNewBoardName] = useState<string>("");
   const [isAdding, setIsAdding] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/login");
+    }
+  }, [authLoading, user, router]);
 
   const sortedBoards = [...boards].sort(
     (a, b) => Number(b.is_pinned) - Number(a.is_pinned),
@@ -73,15 +83,19 @@ const Boards = () => {
     "bg-[#d4aaff]",
   ];
 
- const initials =
-  user?.name
-    ?.split(" ")
-    .map((n: string) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase() ||
-  user?.email?.slice(0, 2).toUpperCase() ||
-  "??";
+  const initials =
+    user?.name
+      ?.split(" ")
+      .map((n: string) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() ||
+    user?.email?.slice(0, 2).toUpperCase() ||
+    "??";
+
+  if (authLoading) return null;
+
+  if (!user) return null;
 
   return (
     <div className="relative min-h-screen bg-[#080d0b] overflow-hidden font-[Inter,sans-serif]">
