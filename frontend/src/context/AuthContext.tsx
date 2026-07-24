@@ -11,14 +11,16 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signUp: (name: string, email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string) => Promise<{ email: string }>;
+  verifyOtp: (email: string, otp: string) => Promise<void>;
+  resendOtp: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   loginWithGoogle: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL ;
 
 async function apiRequest(endpoint: string, options: RequestInit = {}) {
   const res = await fetch(`${API_URL}${endpoint}`, {
@@ -58,7 +60,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
     });
+    return { email: res.email };
+  };
+
+  const verifyOtp = async (email: string, otp: string) => {
+    const res = await apiRequest("/auth/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, otp }),
+    });
     setUser(res.user);
+  };
+
+  const resendOtp = async (email: string) => {
+    await apiRequest("/auth/resend-otp", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    });
   };
 
   const logout = async () => {
@@ -71,7 +88,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signUp, logout, loginWithGoogle }}>
+    <AuthContext.Provider
+      value={{ user, loading, login, signUp, verifyOtp, resendOtp, logout, loginWithGoogle }}
+    >
       {children}
     </AuthContext.Provider>
   );
