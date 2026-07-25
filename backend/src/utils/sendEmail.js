@@ -1,10 +1,10 @@
-const SibApiV3Sdk = require('@getbrevo/brevo');
+const brevo = require('@getbrevo/brevo');
 
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+const apiInstance = new brevo.TransactionalEmailsApi();
+apiInstance.authentications['apiKey'].apiKey = process.env.BREVO_API_KEY;
 
 const sendEmail = async ({ email, subject, otp }) => {
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
 
   sendSmtpEmail.subject = subject || "Your Taskora Verification Code";
   sendSmtpEmail.htmlContent = `
@@ -25,7 +25,7 @@ const sendEmail = async ({ email, subject, otp }) => {
   try {
     await apiInstance.sendTransacEmail(sendSmtpEmail);
   } catch (error) {
-    console.error('Brevo send error:', JSON.stringify(error?.response?.body || error));
+    console.error('Brevo send error:', JSON.stringify(error?.response?.body || error?.message || error));
     throw error;
   }
 };
